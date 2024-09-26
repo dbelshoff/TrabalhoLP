@@ -1,86 +1,66 @@
-// Variável global para armazenar uma lista de usuários
-val users = mutableListOf<String>()
-
-// Função principal que será executada ao iniciar o programa
+// Função principal, ponto de entrada do programa
 fun main() {
-    // Sequência de instruções
-    println("Bem-vindo ao Sistema de Gestão de Usuários")
+    // Exibe as instruções para o usuário
+    println("Bem-vindo à Calculadora em Kotlin!")
+    println("Escolha uma operação:")
+    println("1. Adição (+)")
+    println("2. Subtração (-)")
+    println("3. Multiplicação (*)")
+    println("4. Divisão (/)")
 
-    // Adicionando usuários iniciais
-    addUser("Alice")
-    addUser("Bob")
-    addUser("Carol")
+    // Lê a escolha do usuário
+    print("Digite o número da operação: ")
+    val operacao = readLine()?.toIntOrNull() ?: -1  // Lê e converte para Int, ou retorna -1 se for inválido
 
-    // Exibindo os usuários atuais
-    displayUsers()
+    // Lê os dois números do usuário
+    print("Digite o primeiro número: ")
+    val numero1 = readLine()?.toDoubleOrNull() ?: 0.0  // Lê e converte para Double
+    print("Digite o segundo número: ")
+    val numero2 = readLine()?.toDoubleOrNull() ?: 0.0  // Lê e converte para Double
 
-    // Buscando um usuário específico
-    val searchResult = findUser("Bob")
-    if (searchResult != null) {
-        println("Usuário encontrado: $searchResult")
+    // Variável para armazenar o resultado da operação
+    var resultado: Double = 0.0
+
+    // Estrutura condicional procedural para decidir qual operação executar
+    when (operacao) {
+        1 -> resultado = adicao(numero1, numero2)  // Chama a função de adição
+        2 -> resultado = subtracao(numero1, numero2)  // Chama a função de subtração
+        3 -> resultado = multiplicacao(numero1, numero2)  // Chama a função de multiplicação
+        4 -> resultado = divisao(numero1, numero2)  // Chama a função de divisão
+        else -> println("Operação inválida!")  // Caso o usuário escolha uma operação inválida
+    }
+
+    // Exibe o resultado se a operação for válida
+    if (operacao in 1..4) {
+        println("O resultado da operação é: $resultado")
+    }
+}
+
+// Função de adição
+// Esta função segue o paradigma procedural, recebe dois números e retorna a soma deles
+fun adicao(a: Double, b: Double): Double {
+    return a + b
+}
+
+// Função de subtração
+// Seguindo a mesma estrutura procedural, retorna a diferença entre os números
+fun subtracao(a: Double, b: Double): Double {
+    return a - b
+}
+
+// Função de multiplicação
+// Recebe dois números e retorna o produto
+fun multiplicacao(a: Double, b: Double): Double {
+    return a * b
+}
+
+// Função de divisão
+// Se o divisor for zero, retorna um erro
+fun divisao(a: Double, b: Double): Double {
+    return if (b != 0.0) {
+        a / b
     } else {
-        println("Usuário não encontrado.")
-    }
-
-    // Atualizando o nome de um usuário
-    updateUser("Bob", "Robert")
-
-    // Removendo um usuário
-    removeUser("Alice")
-
-    // Exibindo os usuários atualizados
-    displayUsers()
-
-    // Sequência de instruções continua até o fim
-    println("Operações concluídas.")
-}
-
-// Função para adicionar um usuário à lista
-// Utiliza uma variável local para o nome do usuário
-fun addUser(name: String) {
-    users.add(name) // A variável global 'users' é modificada
-    println("Usuário $name adicionado.")
-}
-
-// Função para exibir todos os usuários na lista
-// Demonstra modularidade e reutilização de código
-fun displayUsers() {
-    println("Usuários atuais:")
-    for (user in users) { // Estrutura de controle (loop for)
-        println("- $user")
+        println("Erro: Divisão por zero!")
+        0.0  // Retorna 0 em caso de divisão por zero
     }
 }
-
-// Função para encontrar um usuário na lista
-// Retorna o nome do usuário se encontrado, ou null se não encontrado
-fun findUser(name: String): String? {
-    for (user in users) { // Estrutura de controle (loop for)
-        if (user == name) { // Estrutura de controle (if)
-            return user
-        }
-    }
-    return null
-}
-
-// Função para atualizar o nome de um usuário
-// Modifica o nome de um usuário existente
-fun updateUser(oldName: String, newName: String) {
-    val index = users.indexOf(oldName) // Variável local para armazenar o índice
-    if (index != -1) { // Estrutura de controle (if)
-        users[index] = newName
-        println("Usuário $oldName atualizado para $newName.")
-    } else {
-        println("Usuário $oldName não encontrado.")
-    }
-}
-
-// Função para remover um usuário da lista
-// Utiliza uma estrutura de controle para verificar se o usuário existe
-fun removeUser(name: String) {
-    if (users.remove(name)) { // Estrutura de controle (if)
-        println("Usuário $name removido.")
-    } else {
-        println("Usuário $name não encontrado.")
-    }
-}
-
